@@ -2,21 +2,33 @@ pipeline {
     agent any
 
     stages {
-        stage ('checkout') {
+        stage('Build') {
             steps {
-                echo 'checking out code'
-                checkout scm
+                echo 'Starting Build'
+                sh 'echo "Application build completed"'
             }
         }
-        stage('build') {
+
+        stage('Test') {
             steps {
-                echo 'building new sh commands'
-                sh 'whoami'
-                sh 'pwd'
-                sh 'docker --version'
-                sh 'date'
-                sh 'ls -al'
-                sh 'hostname'
+                script {
+                    def result = sh(
+                        script: 'exit 1',
+                        returnStatus: true
+                    )
+
+                    echo "Test command exit code: ${result}"
+
+                    if (result != 0) {
+                        echo 'Test failed, but pipeline will continue'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploy stage is running'
             }
         }
     }
