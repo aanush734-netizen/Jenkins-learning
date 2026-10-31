@@ -10,7 +10,7 @@ pipeline {
         }
         stage('build') {
             steps {
-                echo 'building sh command'
+                echo 'building new sh command'
                 sh 'whoami'
                 sh 'pwd'
                 sh 'docker --version'
