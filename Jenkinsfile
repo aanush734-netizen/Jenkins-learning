@@ -1,34 +1,39 @@
 pipeline {
     agent any
 
+    environment {
+        APP_NAME = 'myapp'
+        ENVIRONMENT = 'development'
+        VERSION = '1.0'
+    }
+
     stages {
         stage('Build') {
             steps {
                 echo 'Starting Build'
-                sh 'echo "Application build completed"'
+
+                echo "Application: ${APP_NAME}"
+                echo "Environment: ${ENVIRONMENT}"
+                echo "Version: ${VERSION}"
+
+                sh '''
+                    echo "Checking application details"
+                    echo "App Name: $APP_NAME"
+                    echo "Environment: $ENVIRONMENT"
+                    echo "Version: $VERSION"
+                '''
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    def result = sh(
-                        script: 'exit 1',
-                        returnStatus: true
-                    )
-
-                    echo "Test command exit code: ${result}"
-
-                    if (result != 0) {
-                        echo 'Test failed, but pipeline will continue'
-                    }
-                }
+                echo "Testing ${APP_NAME}"
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploy stage is running'
+                echo "Deploying ${APP_NAME} to ${ENVIRONMENT}"
             }
         }
     }
