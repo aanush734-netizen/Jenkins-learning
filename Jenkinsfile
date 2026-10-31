@@ -10,10 +10,13 @@ pipeline {
         }
         stage('build') {
             steps {
-                echo 'building new sh command'
+                echo 'building new sh commands'
                 sh 'whoami'
                 sh 'pwd'
                 sh 'docker --version'
+                sh 'date'
+                sh 'ls -al'
+                sh 'hostname'
             }
         }
     }
